@@ -1,0 +1,34 @@
+sprint 1 ( jeudi 10h ):
+
+- tableau trello:
+
+- projet sur github
+
+php: mvc monolythique ( sans json et dynamisme )
+
+structure du projet ( avec bootstrap ou css ):
+[
+- interface en html / css
+-  vues avec les fonctionnalitées:
+
+menu 
+{
+- connexion
+- enregistrer élèves ( save / lister / modifier )
+- créer les années scolaires ( save / lister / modifier )
+- créer les classes ( save / lister / modifier )
+- créer les niveaux ( save / lister / modifier )
+}
+
+]
+
+sprint 2 ( vendredi 08h ):
+
+rendre les pages dynamiques
+enregistrer les données dans la bd ( insertion, ajouter, lister, modifier, etc )
+
+(classes, niveaux, années scolaires)
+
+
+
+

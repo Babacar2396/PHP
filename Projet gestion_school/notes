@@ -1,0 +1,26 @@
+MLD:
+
+Eleve ( id_eleve, nom, prenom, numero, type_eleve, #id_classe );
+
+Classe ( id_classe, nom_classe, #id_niveau, #id_annee );
+
+Niveau ( id_niveau, nom_niveau );
+
+AnneeScolaire ( id_annee, annee, etat );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

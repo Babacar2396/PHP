@@ -1,0 +1,21 @@
+{
+    "name": "elzo/projet",
+
+    "autoload": {
+        "psr-4": {
+            "Models\\": "models/",
+            "Controllers\\": "controllers/",
+            "Routers\\": "routeurs/",
+            "App\\": "app/"
+        }
+    },
+    
+    "authors": [
+        {
+            "name": "elzondao",
+            "email": "ndaoelhadji973@gmail.com"
+        }
+    ],
+    "require": {}
+}
+

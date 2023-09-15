@@ -1,0 +1,6 @@
+RewriteEngine On
+
+# Réécrire l'URL /classes/niveau/1 en /classes?niveau=1
+RewriteRule ^classes/niveau/([0-9]+)$ classes?niveau=$1 [L]
+
+

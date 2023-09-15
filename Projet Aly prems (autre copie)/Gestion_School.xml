@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+- phpMyAdmin XML Dump
+- version 5.2.1
+- https://www.phpmyadmin.net
+-
+- Hôte : localhost
+- Généré le : jeu. 08 juin 2023 à 18:28
+- Version du serveur : 8.0.33-0ubuntu0.22.04.2
+- Version de PHP : 8.1.2-1ubuntu2.11
+-->
+
+<pma_xml_export version="1.0" xmlns:pma="https://www.phpmyadmin.net/some_doc_url/">
+    <!--
+    - Structure schemas
+    -->
+    <pma:structure_schemas>
+        <pma:database name="Gestion School" collation="utf8mb4_0900_ai_ci" charset="utf8mb4">
+            <pma:table name="Admin">
+                CREATE TABLE `Admin` (
+                  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                  `password` varchar(255) NOT NULL
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            </pma:table>
+            <pma:table name="Annees_Scolaires">
+                CREATE TABLE `Annees_Scolaires` (
+                  `id_annee_scolaire` int NOT NULL AUTO_INCREMENT,
+                  `annee_scolaire` varchar(9) DEFAULT NULL,
+                  `actif` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT &#039;non&#039;,
+                  PRIMARY KEY (`id_annee_scolaire`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            </pma:table>
+            <pma:table name="Classes">
+                CREATE TABLE `Classes` (
+                  `id_classe` int NOT NULL AUTO_INCREMENT,
+                  `nom_classe` varchar(50) NOT NULL,
+                  `id_niveau` int NOT NULL,
+                  PRIMARY KEY (`id_classe`),
+                  KEY `niveau` (`id_niveau`),
+                  CONSTRAINT `Classes_ibfk_1` FOREIGN KEY (`id_niveau`) REFERENCES `Niveaux` (`id_niveau`) ON DELETE RESTRICT ON UPDATE RESTRICT
+                ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            </pma:table>
+            <pma:table name="ClassesDisciplines">
+                CREATE TABLE `ClassesDisciplines` (
+                  `id_classe` int NOT NULL,
+                  `id_discipline` int NOT NULL,
+                  `ressource` int DEFAULT &#039;10&#039;,
+                  `examen` int DEFAULT &#039;20&#039;,
+                  `id_annee` int NOT NULL,
+                  KEY `id_classe` (`id_classe`),
+                  KEY `id_discipline` (`id_discipline`),
+                  KEY `id_annee` (`id_annee`),
+                  CONSTRAINT `ClassesDisciplines_ibfk_1` FOREIGN KEY (`id_classe`) REFERENCES `Classes` (`id_classe`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+                  CONSTRAINT `ClassesDisciplines_ibfk_2` FOREIGN KEY (`id_discipline`) REFERENCES `Discipline` (`id_discipline`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+                  CONSTRAINT `ClassesDisciplines_ibfk_3` FOREIGN KEY (`id_annee`) REFERENCES `Annees_Scolaires` (`id_annee_scolaire`) ON DELETE RESTRICT ON UPDATE RESTRICT
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            </pma:table>
+            <pma:table name="Discipline">
+                CREATE TABLE `Discipline` (
+                  `id_discipline` int NOT NULL AUTO_INCREMENT,
+                  `nom` varchar(20) NOT NULL,
+                  `code` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                  `id_groupe` int NOT NULL,
+                  PRIMARY KEY (`id_discipline`),
+                  KEY `id_groupe` (`id_groupe`),
+                  CONSTRAINT `Discipline_ibfk_1` FOREIGN KEY (`id_groupe`) REFERENCES `Groupe_Disciplines` (`id_groupe`) ON DELETE RESTRICT ON UPDATE RESTRICT
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            </pma:table>
+            <pma:table name="Eleves">
+                CREATE TABLE `Eleves` (
+                  `id` int NOT NULL AUTO_INCREMENT,
+                  `prenom` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                  `nom` varchar(20) NOT NULL,
+                  `date_born` varchar(20) NOT NULL,
+                  `lieu_born` varchar(30) NOT NULL,
+                  `numero` varchar(10) DEFAULT NULL,
+                  `type_eleve` enum(&#039;Interne&#039;,&#039;Externe&#039;) NOT NULL,
+                  `sexe` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            </pma:table>
+            <pma:table name="Groupe_Disciplines">
+                CREATE TABLE `Groupe_Disciplines` (
+                  `id_groupe` int NOT NULL AUTO_INCREMENT,
+                  `libelle` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                  PRIMARY KEY (`id_groupe`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            </pma:table>
+            <pma:table name="Inscription">
+                CREATE TABLE `Inscription` (
+                  `id_inscription` int NOT NULL AUTO_INCREMENT,
+                  `id_eleve` int NOT NULL,
+                  `id_niveau` int NOT NULL,
+                  `id_classe` int NOT NULL,
+                  `id_annee` int NOT NULL,
+                  PRIMARY KEY (`id_inscription`),
+                  KEY `id_annee` (`id_annee`),
+                  KEY `id_classe` (`id_classe`),
+                  KEY `id_eleve` (`id_eleve`),
+                  KEY `id_niveau` (`id_niveau`),
+                  CONSTRAINT `Inscription_ibfk_1` FOREIGN KEY (`id_annee`) REFERENCES `Annees_Scolaires` (`id_annee_scolaire`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+                  CONSTRAINT `Inscription_ibfk_2` FOREIGN KEY (`id_classe`) REFERENCES `Classes` (`id_classe`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+                  CONSTRAINT `Inscription_ibfk_3` FOREIGN KEY (`id_eleve`) REFERENCES `Eleves` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+                  CONSTRAINT `Inscription_ibfk_4` FOREIGN KEY (`id_niveau`) REFERENCES `Niveaux` (`id_niveau`) ON DELETE RESTRICT ON UPDATE RESTRICT
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            </pma:table>
+            <pma:table name="Niveaux">
+                CREATE TABLE `Niveaux` (
+                  `id_niveau` int NOT NULL AUTO_INCREMENT,
+                  `nom_niveau` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                  PRIMARY KEY (`id_niveau`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            </pma:table>
+        </pma:database>
+    </pma:structure_schemas>
+
+    <!--
+    - Base de données : 'Gestion School'
+    -->
+    <database name="Gestion School">
+        <!-- Table Admin -->
+        <table name="Admin">
+            <column name="username">elzo</column>
+            <column name="password">domerame</column>
+        </table>
+        <!-- Table Annees_Scolaires -->
+        <table name="Annees_Scolaires">
+            <column name="id_annee_scolaire">6</column>
+            <column name="annee_scolaire">2020-2021</column>
+            <column name="actif">non</column>
+        </table>
+        <table name="Annees_Scolaires">
+            <column name="id_annee_scolaire">7</column>
+            <column name="annee_scolaire">2021-2022</column>
+            <column name="actif">non</column>
+        </table>
+        <table name="Annees_Scolaires">
+            <column name="id_annee_scolaire">8</column>
+            <column name="annee_scolaire">2022-2023</column>
+            <column name="actif">oui</column>
+        </table>
+        <!-- Table Classes -->
+        <table name="Classes">
+            <column name="id_classe">1</column>
+            <column name="nom_classe">CI A</column>
+            <column name="id_niveau">1</column>
+        </table>
+        <table name="Classes">
+            <column name="id_classe">2</column>
+            <column name="nom_classe">CP</column>
+            <column name="id_niveau">1</column>
+        </table>
+        <table name="Classes">
+            <column name="id_classe">3</column>
+            <column name="nom_classe">CE1</column>
+            <column name="id_niveau">1</column>
+        </table>
+        <table name="Classes">
+            <column name="id_classe">4</column>
+            <column name="nom_classe">CE2</column>
+            <column name="id_niveau">1</column>
+        </table>
+        <table name="Classes">
+            <column name="id_classe">5</column>
+            <column name="nom_classe">CM1</column>
+            <column name="id_niveau">1</column>
+        </table>
+        <table name="Classes">
+            <column name="id_classe">6</column>
+            <column name="nom_classe">CM2 A</column>
+            <column name="id_niveau">1</column>
+        </table>
+        <table name="Classes">
+            <column name="id_classe">7</column>
+            <column name="nom_classe">6e</column>
+            <column name="id_niveau">2</column>
+        </table>
+        <table name="Classes">
+            <column name="id_classe">8</column>
+            <column name="nom_classe">5e</column>
+            <column name="id_niveau">2</column>
+        </table>
+        <table name="Classes">
+            <column name="id_classe">9</column>
+            <column name="nom_classe">4e</column>
+            <column name="id_niveau">2</column>
+        </table>
+        <table name="Classes">
+            <column name="id_classe">10</column>
+            <column name="nom_classe">3e</column>
+            <column name="id_niveau">2</column>
+        </table>
+        <table name="Classes">
+            <column name="id_classe">11</column>
+            <column name="nom_classe">2nd</column>
+            <column name="id_niveau">3</column>
+        </table>
+        <!-- Table ClassesDisciplines -->
+        <!-- Table Discipline -->
+        <!-- Table Eleves -->
+        <!-- Table Groupe_Disciplines -->
+        <!-- Table Inscription -->
+        <!-- Table Niveaux -->
+        <table name="Niveaux">
+            <column name="id_niveau">1</column>
+            <column name="nom_niveau">Primaire</column>
+        </table>
+        <table name="Niveaux">
+            <column name="id_niveau">2</column>
+            <column name="nom_niveau">Collège</column>
+        </table>
+        <table name="Niveaux">
+            <column name="id_niveau">3</column>
+            <column name="nom_niveau">Lycée</column>
+        </table>
+    </database>
+</pma_xml_export>
